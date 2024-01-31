@@ -1,8 +1,4 @@
-# terminal-tabs
-
-⚠️ This extension is deprecated because terminal tabs are now built into VS Code! Enable them using with the `terminal.integrated.tabs.enabled` setting.
-
----
+# Terminal Tabs
 
 Adds tabs for each terminal process to the status bar. It works by registering clickable status bar buttons when terminals are created via the commands below.
 
@@ -13,7 +9,7 @@ If you want tabs to be built in to the core of VS Code, be sure to upvote [this 
 This extension provides the following commands that can be keybound in your [keybindings.json](https://code.visualstudio.com/docs/customization/keybindings#_customizing-shortcuts) file:
 
 - `terminalTabs.createTerminal`: Creates a terminal with an icon
-- `terminalTabs.createNamedTerminal`: Creates a terminal with an icon that has a name (indicated in the dropdown)
+- `terminalTabs.createNameTerminal`: Creates a terminal with an icon that has a name (indicated in the dropdown)
 - `terminalTabs.showTerminal1`: Shows the first terminal
 - `terminalTabs.showTerminal2`: Shows the second terminal
 - `terminalTabs.showTerminal3`: Shows the third terminal
@@ -32,7 +28,3 @@ __Note__: some common user-preferred shortcuts - eg, <kbd>Ctrl</kbd>/<kbd>Cmd</k
   "terminalTabs.createTerminal"
 ]
 ```
-
-## Limitations
-
-- The terminals can only be tracked when they are created by the terminal API (See [Microsoft/vscode#13267](https://github.com/Microsoft/vscode/issues/13267)). It is currently not possible to intercept creation of the terminal panel on restart for example.

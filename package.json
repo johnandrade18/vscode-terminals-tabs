@@ -1,27 +1,27 @@
 {
     "name": "terminal-tabs",
-    "displayName": "Terminal Tabs (deprecated)",
+    "displayName": "Terminal Tabs",
     "description": "Adds tabs for each terminal process to the status bar",
-    "version": "0.2.1",
+    "version": "0.0.1",
     "preview": true,
-    "publisher": "Tyriar",
+    "publisher": "JohnAndrade",
     "icon": "images/icon.png",
     "bugs": {
-        "url": "https://github.com/Tyriar/vscode-terminal-tabs/issues"
+        "url": "https://github.com/johnandrade18/vscode-terminals-tabs/issues"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/Tyriar/vscode-terminal-tabs"
+        "url": "https://github.com/johnandrade18/vscode-terminals-tabs"
     },
     "engines": {
-        "vscode": "^1.22.0"
+        "vscode": "^1.60.0"
     },
     "categories": [
         "Other"
     ],
     "activationEvents": [
         "onCommand:terminalTabs.createTerminal",
-        "onCommand:terminalTabs.createNamedTerminal"
+        "onCommand:terminalTabs.createNameTerminal"
     ],
     "main": "./out/extension.js",
     "contributes": {
@@ -85,11 +85,11 @@
         "test": "npm run compile && node ./node_modules/vscode/bin/test"
     },
     "devDependencies": {
-        "@types/mocha": "^2.2.32",
-        "@types/node": "^6.0.40",
-        "mocha": "^2.3.3",
-        "tslint": "^5.10.0",
-        "typescript": "4.2",
-        "vscode": "^1.0.0"
+        "@types/mocha": "^10.0.6",
+        "@types/node": "^20.11.13",
+        "mocha": "^10.2.0",
+        "tslint": "^6.1.3",
+        "typescript": "5.3.3",
+        "vscode": "^1.1.37"
     }
 }

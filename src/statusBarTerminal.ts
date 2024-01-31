@@ -1,33 +1,38 @@
 import * as vscode from 'vscode';
 
 export class StatusBarTerminal {
-    private _item: vscode.StatusBarItem;
-    private _terminal: vscode.Terminal;
+  private terminal: vscode.Terminal;
 
-    constructor(terminalIndex: number, name?: string) {
-        this._item = vscode.window.createStatusBarItem();
-        this.setTerminalIndex(terminalIndex);
-        this._item.show();
+  private statusBarItem: vscode.StatusBarItem;
 
-        this._terminal = vscode.window.createTerminal(name);
-        this._terminal.show();
-    }
+  constructor(terminalIndex: number, name?: string) {
+    this.statusBarItem = vscode.window.createStatusBarItem(
+      vscode.StatusBarAlignment.Left,
+      terminalIndex
+    );
+    this.setTerminalIndex(terminalIndex);
+    this.statusBarItem.show();
+    this.terminal = vscode.window.createTerminal({
+      name,
+    });
+    this.terminal.show();
+  }
 
-    public show(): void {
-        this._terminal.show();
-    }
+  public show(): void {
+    this.terminal.show();
+  }
 
-    public setTerminalIndex(i: number): void {
-        this._item.text = `$(terminal)${i + 1}`;
-        this._item.command = `terminalTabs.showTerminal${i + 1}`;
-    }
+  public dispose(): void {
+    this.statusBarItem.dispose();
+    this.terminal.dispose();
+  }
 
-    public hasTerminal(terminal: vscode.Terminal): boolean {
-        return this._terminal === terminal;
-    }
+  public setTerminalIndex(terminalIndex: number): void {
+    this.statusBarItem.text = `$(terminal) ${terminalIndex+1}`;
+    this.statusBarItem.command = `terminalTabs.showTerminal${terminalIndex+1}`;
+  }
 
-    public dispose(): void {
-        this._item.dispose();
-        this._terminal.dispose();
-    }
+  public hasTerminal(terminal: vscode.Terminal): boolean {
+    return this.terminal === terminal;
+  }
 }

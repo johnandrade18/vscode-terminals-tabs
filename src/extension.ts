@@ -1,51 +1,55 @@
-import * as vscode from 'vscode';
-import { StatusBarTerminal } from './statusBarTerminal';
+import * as vscode from "vscode";
+import { StatusBarTerminal } from "./statusBarTerminal";
 
 const MAX_TERMINALS = 10;
-let _terminalCounter = 0;
-let _terminals: StatusBarTerminal[] = [];
+let countTerminales = 0;
+let terminales: StatusBarTerminal[] = [];
 
-export function activate(context: vscode.ExtensionContext): void {
-    context.subscriptions.push(vscode.commands.registerCommand('terminalTabs.createTerminal', () => {
-        if (_terminals.length >= MAX_TERMINALS) {
-            vscode.window.showInformationMessage(`This extension does not support more than ${MAX_TERMINALS} terminals.`);
-            return;
-        }
-        _terminals.push(new StatusBarTerminal(_terminalCounter++));
-    }));
+export function activate({ subscriptions }: vscode.ExtensionContext) {
+  subscriptions.push(
+    vscode.commands.registerCommand("terminalTabs.createTerminal", () => {
+      if (terminales.length >= MAX_TERMINALS) {
+        vscode.window.showErrorMessage(
+          `Maximo de terminales soportados son ${MAX_TERMINALS}`
+        );
+        return;
+      }
+      terminales.push(new StatusBarTerminal(countTerminales++));
+    })
+  );
 
-    context.subscriptions.push(vscode.commands.registerCommand('terminalTabs.createNamedTerminal', () => {
-        vscode.window.showInputBox({
-            placeHolder: 'Enter the name of the new terminal'
-        }).then(name => {
-            _terminals.push(new StatusBarTerminal(_terminalCounter++, name));
+  subscriptions.push(
+    vscode.commands.registerCommand("terminalTabs.createNameTerminal", () => {
+      vscode.window
+        .showInputBox({ placeHolder: "Ingrese el nombde del terminal" })
+        .then((name) => {
+          terminales.push(new StatusBarTerminal(countTerminales++, name));
         });
-    }));
+    })
+  );
 
-    for (let i = 1; i <= MAX_TERMINALS; i++) {
-        context.subscriptions.push(vscode.commands.registerCommand(`terminalTabs.showTerminal${i}`, (a) => {
-            _terminals[i - 1].show();
-        }));
-    }
+  for (let i = 1; i <= MAX_TERMINALS; i++) {
+    subscriptions.push(
+      vscode.commands.registerCommand(`terminalTabs.showTerminal${i}`, () =>
+        terminales[i - 1].show()
+      )
+    );
+  }
 
-    context.subscriptions.push(vscode.window.onDidCloseTerminal(onDidCloseTerminal));
+  subscriptions.push(vscode.window.onDidCloseTerminal(onDidCloseTerminal));
 }
 
 function onDidCloseTerminal(terminal: vscode.Terminal): void {
-    let terminalIndex: number;
-    _terminals.forEach((statusBarTerminal, i) => {
-        if (statusBarTerminal.hasTerminal(terminal)) {
-            terminalIndex = i;
-        }
-    });
-    _terminals[terminalIndex].dispose();
-    // Push all terminals ahead of it back 1 index
-    _terminals.splice(terminalIndex, 1);
-    _terminals.forEach((statusBarTerminal, i) => {
-        _terminals[i].setTerminalIndex(i);
-    });
-    _terminalCounter--;
+  let terminalIndex: number;
+  terminales.forEach((StatusBarTerminal, index) => {
+    if (StatusBarTerminal.hasTerminal(terminal)) terminalIndex = index;
+  });
+  terminales[terminalIndex].dispose();
+  terminales.splice(terminalIndex, 1);
+  terminales.forEach((StatusBarTerminal, index) => {
+    StatusBarTerminal.setTerminalIndex(index);
+  });
+  countTerminales--;
 }
 
-export function deactivate(): void {
-}
+export function deactivate() {}
